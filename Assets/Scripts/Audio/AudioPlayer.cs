@@ -41,9 +41,6 @@ public class AudioPlayer : MonoBehaviour
         new SFXAudioClip(BUTTON,     1, sfxGroup, Events.onButtonPressed);
         new SFXAudioClip(BUTTON,  0.9f, sfxGroup, Events.onFocusEntered);
         new SFXAudioClip(BUTTON,  0.9f, sfxGroup, Events.onSettingsChanged);
-        new SFXAudioClip(GOAL,   0.25f, sfxGroup, Events.onGoalEnter);
-        new SFXAudioClip(BALL,    0.9f, sfxGroup, Events.onBallCollided);
-        new SFXAudioClip(BALL,   0.25f, sfxGroup, Events.onBallKicked);
         // };
 	}
 

@@ -9,10 +9,7 @@ public static class Events
     public static readonly CustomEvent onFocusEntered  = new CustomEvent();
 
     // ** Main Game **
-    public static readonly CustomEvent onGoalEnter    = new CustomEvent();
-    public static readonly CustomEvent onBallSpawned  = new CustomEvent();
-    public static readonly CustomEvent onBallCollided = new CustomEvent();
-    public static readonly CustomEvent onBallKicked   = new CustomEvent();
+    public static readonly CustomEvent onTileEvent = new CustomEvent();
 
     // ** Game State **
     public static readonly CustomEvent onNewGame           = new CustomEvent();

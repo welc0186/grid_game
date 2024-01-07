@@ -13,14 +13,12 @@ public class ScoreLabel : MonoBehaviour
 	void Awake()
 	{
 		_label = GetComponent<TMP_Text>();
-        Events.onGoalEnter.Subscribe(OnGoalEnter);
 		Events.onNewGame.Subscribe(OnNewGame);
 		UpdateScore(0);
 	}
 
     void OnDestroy()
 	{
-		Events.onGoalEnter.Unsubscribe(OnGoalEnter);
 		Events.onNewGame.Unsubscribe(OnNewGame);
 	}
 
