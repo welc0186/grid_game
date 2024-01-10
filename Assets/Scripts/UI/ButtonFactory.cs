@@ -8,12 +8,14 @@ public class ButtonFactory : IMenuItemFactory
 	GameObject _buttonPrefab;
 	string _text;
 	ButtonMessage _message;
+	Sprite _logo;
 
-	public ButtonFactory(string text, ButtonMessage m)
+	public ButtonFactory(string text, ButtonMessage m, Sprite logo = null)
 	{
 		_buttonPrefab = Resources.Load<GameObject>("UI/MenuButton");
 		_text = text;
 		_message = m;
+		_logo = logo;
 	}
 	
 	public GameObject MakeMenuItem()
@@ -21,6 +23,13 @@ public class ButtonFactory : IMenuItemFactory
         var button = GameObject.Instantiate(_buttonPrefab);
 		button.GetComponentInChildren<TMP_Text>().text = _text;
 		button.GetComponent<MenuButton>().Message = _message;
+		if(_logo == null)
+		{
+			GameObject.Destroy(button.transform.FindRecursive("Logo").gameObject);
+		} else
+		{
+			button.transform.FindRecursive("Logo").gameObject.GetComponent<SpriteRenderer>().sprite = _logo;
+		}
 		return button;
     }
 

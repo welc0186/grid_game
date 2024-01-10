@@ -9,7 +9,11 @@ public static class Events
     public static readonly CustomEvent onFocusEntered  = new CustomEvent();
 
     // ** Main Game **
-    public static readonly CustomEvent onTileEvent = new CustomEvent();
+    public static readonly CustomEvent onTileEvent        = new CustomEvent();
+    public static readonly CustomEvent onHighlight        = new CustomEvent();
+    public static readonly CustomEvent onGridPieceDestroy = new CustomEvent();
+    public static readonly CustomEvent onGridPieceJump    = new CustomEvent();
+    public static readonly CustomEvent onGridPieceSelect  = new CustomEvent();
 
     // ** Game State **
     public static readonly CustomEvent onNewGame           = new CustomEvent();

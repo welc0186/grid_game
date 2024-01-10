@@ -32,6 +32,7 @@ public class TileHighlight : MonoBehaviour, ITileObject
         switch (tileEvent.EventType)
         {
             case TileEventType.HOVER_ENTER:
+                Events.onHighlight.Invoke(gameObject, null);
                 _spriteRenderer.enabled = true;
                 break;
             case TileEventType.HOVER_EXIT:

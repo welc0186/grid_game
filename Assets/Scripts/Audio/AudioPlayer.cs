@@ -22,9 +22,10 @@ public class SFXAudioClip
 public class AudioPlayer : MonoBehaviour
 {
     
-    public const string BUTTON = "Audio/Menu__006";
-	public const string GOAL   = "Audio/Explosion2__006";
-	public const string BALL   = "Audio/Menu__004";
+    public const string PIECE_DESTROY = "Audio/blink_disappear_0001";
+    public const string HIGHLIGHT     = "Audio/low_subtle_click";
+    public const string JUMP          = "Audio/quick_jump_lowfrequency";
+    public const string SELECT        = "Audio/blipSelect_0001";
 
     public const string MIXER  = "Audio/Mixer";
     public const string SFX    = "SFX1";
@@ -37,11 +38,15 @@ public class AudioPlayer : MonoBehaviour
         var bgmGroup = mixer.FindMatchingGroups(BGM)[0];
         
         // List of audio clips and events that trigger them
-        // List<SFXAudioClip> Clips = new List<SFXAudioClip>() {
-        new SFXAudioClip(BUTTON,     1, sfxGroup, Events.onButtonPressed);
-        new SFXAudioClip(BUTTON,  0.9f, sfxGroup, Events.onFocusEntered);
-        new SFXAudioClip(BUTTON,  0.9f, sfxGroup, Events.onSettingsChanged);
-        // };
+        new SFXAudioClip(PIECE_DESTROY, 1, sfxGroup, Events.onGridPieceDestroy);
+        new SFXAudioClip(HIGHLIGHT,     1, sfxGroup, Events.onHighlight);
+        new SFXAudioClip(JUMP,          1, sfxGroup, Events.onGridPieceJump);
+        new SFXAudioClip(SELECT,        1, sfxGroup, Events.onGridPieceSelect);
+
+
+        new SFXAudioClip(SELECT,     1, sfxGroup, Events.onButtonPressed);
+        new SFXAudioClip(SELECT,  0.9f, sfxGroup, Events.onFocusEntered);
+        new SFXAudioClip(SELECT,  0.9f, sfxGroup, Events.onSettingsChanged);
 	}
 
 }

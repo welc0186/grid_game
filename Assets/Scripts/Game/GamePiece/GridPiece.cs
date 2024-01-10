@@ -4,13 +4,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
+public static class GridPieceSpawner
+{
+    public const string PATH = "Prefabs/GridPiece";
+    public static GameObject Spawn(Transform parent, int value = 1)
+    {
+        var gridPieceRes = Resources.Load<GameObject>(PATH);
+        var gridPiece = GameObject.Instantiate(gridPieceRes, parent);
+        gridPiece.GetComponent<GridPiece>().UpdateValue(value);
+        return gridPiece;
+    }
+}
+
 public class GridPiece : MonoBehaviour, ITileObject
 {
     public const int MIN_VALUE = 0;
     public const int MAX_VALUE = 6;
     
     public GameObject Tile { get; private set; }
-    public int Value;
+    public int Value { get; private set; }
     public bool Selected { get; private set; }
 
     private SpriteMB _spriteMB;
@@ -23,6 +35,12 @@ public class GridPiece : MonoBehaviour, ITileObject
         _moveLocations = new MoveLocationManager();
         _spriteMB = GetComponentInChildren<SpriteMB>();
         Events.onTileEvent.Subscribe(HandleTileEvent);
+    }
+
+    void OnDestroy()
+    {
+        Events.onGridPieceDestroy.Invoke(gameObject, null);
+        Events.onTileEvent.Unsubscribe(HandleTileEvent);
     }
 
     private void HandleTileEvent(GameObject sender, object data)
@@ -58,7 +76,7 @@ public class GridPiece : MonoBehaviour, ITileObject
             var jumpedPiece = _gameGrid.Tiles[jumpedPieceCoords].GetComponent<GridTile>().FindTileObject<GridPiece>();
             _moveLocations.Reset();
             HandleTileMove(tileGameObject);
-            SimpleTimer.Create(0.2f).Timeout += () => JumpPiece(jumpedPiece);
+            SimpleTimer.Create(0.5f).Timeout += () => JumpPiece(jumpedPiece);
             return;
         }
 
@@ -78,7 +96,7 @@ public class GridPiece : MonoBehaviour, ITileObject
         UpdateValue(Mathf.Abs(jumpedValue - Value));
     }
 
-    private void UpdateValue(int value)
+    public void UpdateValue(int value)
     {
         if(value < MIN_VALUE || value > MAX_VALUE)
         {
@@ -116,7 +134,7 @@ public class GridPiece : MonoBehaviour, ITileObject
             var parentTile = _gameGrid.Tiles[origin + checkDirection + checkDirection];
             _moveLocations.Spawn(parentTile.transform);
         }
-
+        Events.onGridPieceSelect.Invoke(gameObject, null);
     }
 
     bool IsValidMoveDirection(Vector2Int origin, Vector2Int direction)
@@ -148,6 +166,7 @@ public class GridPiece : MonoBehaviour, ITileObject
         transform.SetParent(tileGameObject.transform);
         transform.localPosition = Vector3.zero;
         Selected = false;
+        Events.onGridPieceJump.Invoke(gameObject, null);
     }
 
     void FindParentTile()
@@ -205,6 +224,10 @@ public class GridPiece : MonoBehaviour, ITileObject
         if(transform.parent == null)
         {
             FindParentTile();
+        }
+        if(Tile == null)
+        {
+            Tile = transform.parent.gameObject;
         }
         if(_gameGrid == null)
         {

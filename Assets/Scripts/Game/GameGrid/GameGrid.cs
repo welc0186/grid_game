@@ -41,12 +41,18 @@ public static class GameGridSpawner
 
 public class GameGrid : MonoBehaviour
 {
-    public Dictionary<Vector2Int, GameObject> Tiles { get; private set; }
-
-    void Awake()
-    {
-        Tiles = new Dictionary<Vector2Int, GameObject>();
-    }
+    private Dictionary<Vector2Int, GameObject> _tiles;
+    
+    public Dictionary<Vector2Int, GameObject> Tiles
+        { 
+            get
+            { 
+                if (_tiles == null)
+                    UpdateTiles();
+                return _tiles;
+            } 
+            set {}
+        }
 
     void Start()
     {
@@ -55,13 +61,14 @@ public class GameGrid : MonoBehaviour
 
     void UpdateTiles()
     {
+        _tiles = new Dictionary<Vector2Int, GameObject>();
         foreach(Transform child in transform)
         {
             GridTile gridTile;
             child.gameObject.TryGetComponent<GridTile>(out gridTile);
             if(gridTile == null)
                 continue;
-            Tiles.Add(gridTile.Coords, child.gameObject);
+            _tiles.Add(gridTile.Coords, child.gameObject);
         }
     }
 

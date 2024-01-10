@@ -6,6 +6,8 @@ using System;
 
 public class GameMenu : MonoBehaviour
 {
+
+	public const string PANEL_PATH = "UI/MenuPanel";
 	
 	bool _paused;
 	GameObject _menuParent;
@@ -102,11 +104,13 @@ public class GameMenu : MonoBehaviour
 				Destroy(child.gameObject);
 		}
 
+		var gamePanel = PrefabSpawner.Spawn(PANEL_PATH, _menuParent.transform);
+
 		bool firstFocus = true;
 		foreach(IMenuItemFactory factory in menuItems)
 		{
 			var menuItem = (GameObject) factory.MakeMenuItem();
-			menuItem.transform.SetParent(_menuParent.transform);
+			menuItem.transform.SetParent(gamePanel.transform, false);
 			if(firstFocus && menuItem.GetComponentInChildren<Selectable>() != null) 
 			{
 				firstFocus = false;
@@ -149,7 +153,7 @@ public class GameMenu : MonoBehaviour
 
     void Update()
 	{	
-		if (Input.GetButton("Cancel") && SceneManager.GetActiveScene().name == "MainGame")
+		if (Input.GetButtonUp("Cancel") && SceneManager.GetActiveScene().name == "MainGame")
 		{
 			if(!_paused)
 			{
