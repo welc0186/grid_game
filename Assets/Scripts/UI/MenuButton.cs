@@ -20,7 +20,7 @@ public class MenuButton : MonoBehaviour, ISelectHandler, IDeselectHandler, IPoin
 
     void Awake()
 	{
-		GetComponent<Button>().onClick.AddListener( () => {Events.onButtonPressed.Invoke(gameObject, null);});
+		GetComponent<Button>().onClick.AddListener( () => {Events.onButtonPressed.Invoke(gameObject, Message);});
 		SetTextColor(true);
 	}
 

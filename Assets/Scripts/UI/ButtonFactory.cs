@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using TMPro;
+using UnityEngine.UI;
 
 public class ButtonFactory : IMenuItemFactory
 {
@@ -28,7 +29,7 @@ public class ButtonFactory : IMenuItemFactory
 			GameObject.Destroy(button.transform.FindRecursive("Logo").gameObject);
 		} else
 		{
-			button.transform.FindRecursive("Logo").gameObject.GetComponent<SpriteRenderer>().sprite = _logo;
+			button.transform.FindRecursive("Logo").gameObject.GetComponent<Image>().sprite = _logo;
 		}
 		return button;
     }

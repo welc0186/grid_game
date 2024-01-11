@@ -5,15 +5,18 @@ using UnityEngine;
 
 public class StageManager : MonoBehaviour
 {
-    
+    public const float TRANSITION_SECONDS = 1f;
+
     private int _stage;
     private List<GameObject> _gridPieces;
     private GameGrid _gameGrid;
+    private bool _transitioning;
 
     void Awake()
     {
         _stage = 0;
         _gridPieces = new List<GameObject>();
+        Events.onButtonPressed.Subscribe(HandleButtonPress);
     }
 
     void Start()
@@ -21,7 +24,20 @@ public class StageManager : MonoBehaviour
         FindGameGrid();
         InitStage();
     }
-    
+
+    void OnDestroy()
+    {
+        Events.onButtonPressed.Unsubscribe(HandleButtonPress);
+    }
+
+    private void HandleButtonPress(GameObject sender, object data)
+    {
+        if (data is not ButtonMessage) return;
+        var buttonMessage = (ButtonMessage) data;
+        if(buttonMessage.Text == "ResetBoard")
+            InitStage();
+    }
+
     void InitStage()
     {
         DestroyPieces();
@@ -43,13 +59,23 @@ public class StageManager : MonoBehaviour
 
     void Update()
     {
+        var pieceExists = GridPieceExists();
         if (_gameGrid == null)
             FindGameGrid();
-        if (!GridPieceExists() && _stage < Stages.Data.Length - 1)
+        if (pieceExists)
+            _transitioning = false;
+        if (!pieceExists && _stage < Stages.Data.Length - 1 && !_transitioning)
         {
-            _stage++;
-            InitStage();
+            _transitioning = true;
+            StartCoroutine(ClearStage());
         }
+    }
+
+    IEnumerator ClearStage()
+    {
+        yield return new WaitForSeconds(TRANSITION_SECONDS);
+        _stage++;
+        InitStage();
     }
 
     bool GridPieceExists()

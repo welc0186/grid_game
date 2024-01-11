@@ -7,7 +7,8 @@ using System;
 public class GameMenu : MonoBehaviour
 {
 
-	public const string PANEL_PATH = "UI/MenuPanel";
+	public const string MENUPANEL_PATH = "UI/MenuPanel";
+	public const string PAUSEPANEL_PATH = "UI/PausePanel";
 	
 	bool _paused;
 	GameObject _menuParent;
@@ -104,7 +105,8 @@ public class GameMenu : MonoBehaviour
 				Destroy(child.gameObject);
 		}
 
-		var gamePanel = PrefabSpawner.Spawn(PANEL_PATH, _menuParent.transform);
+		var pausePanel = PrefabSpawner.Spawn(PAUSEPANEL_PATH, _menuParent.transform);
+		var gamePanel = PrefabSpawner.Spawn(MENUPANEL_PATH, pausePanel.transform);
 
 		bool firstFocus = true;
 		foreach(IMenuItemFactory factory in menuItems)
