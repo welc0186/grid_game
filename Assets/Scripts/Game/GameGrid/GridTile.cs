@@ -17,6 +17,7 @@ public static class GridTileSpawner
         return gridTile;
     }
 
+#if UNITY_EDITOR
     public static GameObject SpawnPrefab(Vector2Int coords, Transform parent)
     {
         var gridTileRes = Resources.Load<GameObject>(PATH);
@@ -27,6 +28,7 @@ public static class GridTileSpawner
         gridTile.transform.position = new Vector3(coords.x, coords.y, 0);
         return gridTile;
     }
+#endif
 }
 
 public enum TileEventType

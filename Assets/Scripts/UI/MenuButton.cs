@@ -5,9 +5,10 @@ using UnityEngine.UI;
 using Alf.UI;
 using TMPro;
 
+[System.Serializable]
 public class ButtonMessage
 {
-	public string Text { get; private set; }
+	public string Text;
 	public ButtonMessage(string message)
 	{
 		Text = message;

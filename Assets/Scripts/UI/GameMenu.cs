@@ -9,6 +9,10 @@ public class GameMenu : MonoBehaviour
 
 	public const string MENUPANEL_PATH = "UI/MenuPanel";
 	public const string PAUSEPANEL_PATH = "UI/PausePanel";
+
+	public const string UI_PATH = "Sprites/ui_sprite_sheet_16x16";
+	public const int PLAYSYM_IND = 4;
+	public const int RESET_IND = 6;
 	
 	bool _paused;
 	GameObject _menuParent;
@@ -19,13 +23,16 @@ public class GameMenu : MonoBehaviour
 
 	void Awake()
 	{
+		var uiSprite = Resources.LoadAll<Sprite>(UI_PATH);
+		var playImg = uiSprite[PLAYSYM_IND];
+		var resetImg = uiSprite[RESET_IND];
 
 		// ** Title Menu **
 		_titleMenu = new IMenuItemFactory[] {
-			new LabelFactory("PONG"),
-			new ButtonFactory("Play",     new ButtonMessage("New Game")),
-			new ButtonFactory("Settings", new ButtonMessage("Settings Menu")),
-			new ButtonFactory("Quit",     new ButtonMessage("Quit Game"))
+			new LabelFactory("Alien Game"),
+			new ButtonFactory("Play",     new ButtonMessage("New Game"), playImg),
+			// new ButtonFactory("Settings", new ButtonMessage("Settings Menu")),
+			// new ButtonFactory("Quit",     new ButtonMessage("Quit Game"))
 		};
 
 		// TO-DO: Add Settings
@@ -42,18 +49,18 @@ public class GameMenu : MonoBehaviour
 		// ** Pause Menu **
 		_pauseMenu = new IMenuItemFactory[] {
 			new LabelFactory("Game Paused"),
-			new ButtonFactory("New",       new ButtonMessage("New Game")),
-			new ButtonFactory("Resume",    new ButtonMessage("Resume Game")),
-			new ButtonFactory("Main Menu", new ButtonMessage("Main Menu")),
-			new ButtonFactory("Quit",      new ButtonMessage("Quit Game"))
+			new ButtonFactory("New",       new ButtonMessage("New Game"), resetImg),
+			new ButtonFactory("Resume",    new ButtonMessage("Resume Game"), playImg),
+			// new ButtonFactory("Main Menu", new ButtonMessage("Main Menu")),
+			// new ButtonFactory("Quit",      new ButtonMessage("Quit Game"))
 		};
 
 		// ** Game Over Menu **
 		_gameOverMenu = new IMenuItemFactory[] {
 			new LabelFactory("Game Over"),
-			new ButtonFactory("New",       new ButtonMessage("New Game")),
+			new ButtonFactory("New",       new ButtonMessage("New Game"), resetImg),
 			new ButtonFactory("Main Menu", new ButtonMessage("Main Menu")),
-			new ButtonFactory("Quit",      new ButtonMessage("Quit Game"))
+			// new ButtonFactory("Quit",      new ButtonMessage("Quit Game"))
 		};
 
 		_menuParent = GameObject.Find("MenuParent");

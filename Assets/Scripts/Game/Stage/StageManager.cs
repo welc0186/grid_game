@@ -34,8 +34,18 @@ public class StageManager : MonoBehaviour
     {
         if (data is not ButtonMessage) return;
         var buttonMessage = (ButtonMessage) data;
-        if(buttonMessage.Text == "ResetBoard")
-            InitStage();
+        switch (buttonMessage.Text)
+        {
+            case "ResetBoard":
+                InitStage();
+                break;
+            case "New Game":
+                _stage = 0;
+                InitStage();
+                break;
+            default:
+                break;
+        }
     }
 
     void InitStage()
@@ -64,7 +74,7 @@ public class StageManager : MonoBehaviour
             FindGameGrid();
         if (pieceExists)
             _transitioning = false;
-        if (!pieceExists && _stage < Stages.Data.Length - 1 && !_transitioning)
+        if (!pieceExists && !_transitioning)
         {
             _transitioning = true;
             StartCoroutine(ClearStage());
@@ -75,6 +85,8 @@ public class StageManager : MonoBehaviour
     {
         yield return new WaitForSeconds(TRANSITION_SECONDS);
         _stage++;
+        if(_stage == Stages.Data.Length)
+            _stage = 0;
         InitStage();
     }
 

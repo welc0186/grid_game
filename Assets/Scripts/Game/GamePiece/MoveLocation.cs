@@ -39,4 +39,5 @@ public class MoveLocationManager
 public class MoveLocation : MonoBehaviour, ITileObject
 {
     public GameObject Tile { get; private set; }
+
 }

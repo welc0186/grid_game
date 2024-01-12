@@ -41,6 +41,8 @@ public class GridPiece : MonoBehaviour, ITileObject
     {
         Events.onGridPieceDestroy.Invoke(gameObject, null);
         Events.onTileEvent.Unsubscribe(HandleTileEvent);
+        if(_moveLocations != null)
+            _moveLocations.Reset();
     }
 
     private void HandleTileEvent(GameObject sender, object data)

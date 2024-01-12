@@ -22,6 +22,7 @@ public static class GameGridSpawner
         return gameGrid;
     }
 
+#if UNITY_EDITOR
     public static GameObject SpawnPrefab(int width, int height)
     {
         var gameGridRes = Resources.Load<GameObject>(PATH);
@@ -37,6 +38,8 @@ public static class GameGridSpawner
         }
         return gameGrid;
     }
+#endif
+
 }
 
 public class GameGrid : MonoBehaviour
